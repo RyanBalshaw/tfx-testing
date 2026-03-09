@@ -1,4 +1,4 @@
-# tfx-pritam
+# tfx local testing
 
 This work represents the process to upgrade TFX and its full dependency chain to Python 3.12.4, matching Pritam's build system (Fedora 42).
 
@@ -44,6 +44,8 @@ git submodule add -b <branch> https://github.com/<lead>/tfx-bsl libs/tfx-bsl
 git submodule update --init --recursive
 ```
 
+> I am pretty sure that you can also check out specific versions of submodules (CONFIRM).
+
 ### 3. Activate the dependency in pyproject.toml
 
 Uncomment the relevant lines in both `[project].dependencies` and
@@ -59,7 +61,7 @@ dependencies = [
 tfx-bsl = { path = "libs/tfx-bsl", editable = true }
 ```
 
-Then run:
+Then run the following command in the container IDE environment:
 
 ```bash
 uv sync
@@ -69,16 +71,6 @@ uv sync
 
 The project is mounted at `/workspace` inside the container. Submodules in
 `libs/` are part of the repo, so they come along automatically.
-
-## Destroying an attempt
-
-```bash
-git checkout main
-git branch -D attempt/tfx-bsl-v1.17.0-py3.12.4
-```
-
-Submodules, uncommitted `pyproject.toml` changes, and everything else are
-discarded with the branch.
 
 ## Python version
 
