@@ -1,0 +1,6 @@
+[submodule "libs/tfx-bsl"]
+	path = libs/tfx-bsl
+	url = git@github.com:pritamdodeja/tfx-bsl.git
+[submodule "libs/tfx"]
+	path = libs/tfx
+	url = git@github.com:pritamdodeja/tfx.git

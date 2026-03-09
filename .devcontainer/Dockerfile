@@ -1,26 +1,27 @@
 FROM fedora:42
 
-# Install dependencies
-RUN dnf update -y && dnf install -y \
-    curl ca-certificates gcc gcc-c++ make cmake git \
-    snappy-devel protobuf-compiler protobuf-devel \
-    && dnf clean all
+RUN dnf update -y && \
+    dnf install -y \
+        git curl gcc gcc-c++ make cmake \
+        snappy-devel protobuf-compiler protobuf-devel \
+        sudo && \
+    dnf clean all
 
-# Install uv binary
+# Install Bazelisk
+RUN curl -fSL https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 \
+        -o /usr/bin/bazel && \
+    chmod +x /usr/bin/bazel && \
+    ln -s /usr/bin/bazel /usr/local/bin/bazel
+
 COPY --from=ghcr.io/astral-sh/uv:0.10.9 /uv /uvx /usr/local/bin/
 
-# Setup Python via uv
-ENV UV_PYTHON_INSTALL_DIR=/python \
-    UV_PYTHON_PREFERENCE=only-managed \
-    PATH="/workspace/.venv/bin:$PATH"
-
-# Pre-install Python version from your project file
-COPY .python-version /tmp/.python-version
-RUN cd /tmp && uv python install
-
-# Setup the Dev User
 RUN useradd -m dev-pycharm && \
-    chown -R dev-pycharm:dev-pycharm /python
+    echo "dev-pycharm ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev-pycharm && \
+    chmod 0440 /etc/sudoers.d/dev-pycharm
 
 USER dev-pycharm
+ENV UV_PYTHON_INSTALL_DIR=/home/dev-pycharm/.local/share/uv/python
+
+RUN uv python install 3.12.4
+
 WORKDIR /workspace

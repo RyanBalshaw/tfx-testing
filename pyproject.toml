@@ -5,21 +5,12 @@ description = "Replicating Pritam's environment to upgrade TFX and its dependenc
 readme = "README.md"
 requires-python = ">=3.12.4"
 dependencies = [
-    # Submodule dependencies are declared here once the corresponding submodule
-    # is initialised in libs/.  Activate by uncommenting and running `uv sync`.
-    # "tensorflow-metadata",
-    # "ml-metadata",
-    # "tfx-bsl",
-    # "tfx",
+    # Submodule dependencies are declared here once the corresponding submodule is initialised in libs/.
+    "tfx-bsl",
+    "tfx-dev",
 ]
 
-# ---------------------------------------------------------------------------
 # Local path sources for git submodules living in libs/
-# Each entry maps a package name to the editable checkout that lives in the
-# submodule.  The path is relative to this pyproject.toml.
-# ---------------------------------------------------------------------------
 [tool.uv.sources]
-# tensorflow-metadata = { path = "libs/tensorflow-metadata", editable = true }
-# ml-metadata         = { path = "libs/ml-metadata",         editable = true }
-# tfx-bsl             = { path = "libs/tfx-bsl",             editable = true }
-# tfx                 = { path = "libs/tfx",                 editable = true }
+tfx-bsl = { path = "libs/tfx-bsl", editable = true }
+tfx-dev     = { path = "libs/tfx",     editable = true }

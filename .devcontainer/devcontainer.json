@@ -4,14 +4,23 @@
         "context": "..",
         "dockerfile": "Dockerfile"
     },
-    "customizations": {
-        "jetbrains": {
-            "backend": "PyCharm"
+    "remoteUser": "dev-pycharm",
+    "mounts": [
+        {
+            "source": "tfx-cache-${devcontainerId}",
+            "target": "/home/dev-pycharm/.cache",
+            "type": "volume"
+        },
+        {
+            "source": "${localEnv:HOME}/.ssh",
+            "target": "/home/dev-pycharm/.ssh",
+            "type": "bind",
+            "readOnly": true
         }
+    ],
+    "containerEnv": {
+        "UV_PYTHON_INSTALL_DIR": "/home/dev-pycharm/.local/share/uv/python",
+        "UV_CACHE_DIR": "/home/dev-pycharm/.local/uv-cache"
     },
-    "postCreateCommand": "git submodule update --init --recursive && uv sync",
-    "remoteEnv": {
-        "PATH": "/workspace/.venv/bin:${containerEnv:PATH}"
-    },
-    "remoteUser": "dev-pycharm"
+    "postCreateCommand": "git submodule update --init --recursive && uv sync"
 }
