@@ -8,6 +8,7 @@ dependencies = [
     # Submodule dependencies are declared here once the corresponding submodule is initialised in libs/.
     "tfx-bsl",
     "tfx-dev",
+    "setuptools==70.0.0",
 ]
 
 # Local path sources for git submodules living in libs/

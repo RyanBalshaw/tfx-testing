@@ -7,12 +7,13 @@ RUN dnf update -y && \
         sudo && \
     dnf clean all
 
-# Install Bazelisk
+# Install Bazelisk to /usr/local/bin (standard for user-installed binaries)
 RUN curl -fSL https://github.com/bazelbuild/bazelisk/releases/latest/download/bazelisk-linux-amd64 \
-        -o /usr/bin/bazel && \
-    chmod +x /usr/bin/bazel && \
-    ln -s /usr/bin/bazel /usr/local/bin/bazel
+        -o /usr/local/bin/bazel && \
+    chmod +x /usr/local/bin/bazel && \
+    /usr/local/bin/bazel --version
 
+ENV PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
 COPY --from=ghcr.io/astral-sh/uv:0.10.9 /uv /uvx /usr/local/bin/
 
 RUN useradd -m dev-pycharm && \
