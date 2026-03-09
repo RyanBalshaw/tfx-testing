@@ -1,0 +1,17 @@
+{
+    "name": "Fedora 42 - TFX",
+    "build": {
+        "context": "..",
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "jetbrains": {
+            "backend": "PyCharm"
+        }
+    },
+    "postCreateCommand": "git submodule update --init --recursive && uv sync",
+    "remoteEnv": {
+        "PATH": "/workspace/.venv/bin:${containerEnv:PATH}"
+    },
+    "remoteUser": "dev-pycharm"
+}
